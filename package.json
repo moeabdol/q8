@@ -1,8 +1,11 @@
 {
   "name": "q8",
   "version": "1.0.0",
-  "description": "The infamous Q8",
-  "main": "index.js",
+  "description": "The infamous Question 8",
+  "main": "q8.js",
+  "bin": {
+    "q8": "q8.js"
+  },
   "scripts": {},
   "author": "Mohammad Abdullah Saed",
   "license": "ISC",
