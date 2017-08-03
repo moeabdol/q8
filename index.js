@@ -63,54 +63,55 @@ function showBanner() {
       figlet.textSync("Q8", { horizontalLayout: "full" })
     )
   );
-  console.log(chalk.white("1.Show orders\n2.Add orders\n3.Delete orders\n" +
-    "4.Filter by company\n5.Filter by address\n6.Trending items (DESC)"));
+  // console.log(chalk.white("1.Add orders\n3.Delete orders\n" +
+  //   "4.Filter by company\n5.Filter by address\n6.Trending items (DESC)"));
 }
 showBanner();
 
-// Get user input
-function getUserInput(callback) {
-  var question = [
-    {
-      name: "command",
-      type: "input",
-      message: "Please choose a command number: ",
-      validate: function(value) {
-        switch(value) {
-          case "1":
-            showOrders();
-            break;
-          case "2":
-            addOrder();
-            break;
-          case "3":
-            deleteOrder();
-            break;
-          case "4":
-            filterByCompany();
-            break;
-          case "5":
-            filterByAddress();
-            break;
-          case "6":
-            showTrendingItemsDesc();
-            break;
-          default:
-            return "Please choose a command number: ";
-            return;
-        }
-      }
+/////////////////////////////////////////////////////
+var questions = [
+  {
+    type: "list",
+    name: "command",
+    message: "Please choose an option: (Ctrl-C to quit)",
+    choices: [
+      "Show orders",
+      "Add order",
+      "Remove order",
+      "Filter by company",
+      "Filter by address",
+      "Show trending items (DESC)"
+    ],
+    filter: function(choice) {
+      return choice.toLowerCase();
     }
-  ];
-  inquirer.prompt(question).then(callback);
+  }
+];
+
+function ask() {
+  inquirer.prompt(questions).then(function(answers) {
+    // output.push(answers.tvShow);
+    // if (answers.askAgain) {
+    //     ask();
+    // } else {
+    //     console.log("Your favorite TV Shows:", output.join(", "));
+    // }
+
+    switch(answers.command) {
+      case "show orders":
+        showOrders();
+        break;
+      case "add order":
+        addOrder();
+        break;
+    }
+  });
 }
-getUserInput(function() {
-  console.log(arguments);
-});
+ask();
+//////////////////////////////////////////////////////////
 
 function showOrders() {
   showBanner();
-
   // Construct orders table
   var table = new Table({
     head: ["ID", "Company", "Address", "Item"],
@@ -120,11 +121,42 @@ function showOrders() {
     table.push([orders[i].id, orders[i].company, orders[i].address, orders[i].item]);
   }
   console.log(table.toString());
+  ask();
 }
 
 function addOrder() {
-  showBanner();
-  console.log("2");
+  var questions = [
+    {
+      type: "input",
+      name: "id",
+      message: "Order ID: ",
+    },
+    {
+      type: "input",
+      name: "company",
+      message: "Company name: ",
+    },
+    {
+      type: "input",
+      name: "address",
+      message: "Company address: ",
+    },
+    {
+      type: "input",
+      name: "item",
+      message: "Item name: ",
+    }
+  ];
+	inquirer.prompt(questions).then(function(answers) {
+    order = {
+      id: answers.id,
+      company: answers.company,
+      address: answers.address,
+      item: answers.item
+    }
+    orders.push(order);
+    showOrders();
+  });
 }
 
 function deleteOrder() {
