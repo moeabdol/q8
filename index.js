@@ -21,13 +21,13 @@ var orders = [
     id: "003",
     company: "MegaCorp",
     address: "Steindamm 80",
-    item: "Book 'Guide to Hamburg'"
+    item: "Book \"Guide to Hamburg\""
   },
   {
     id: "004",
     company: "SuperTrader",
     address: "Strenstrasse 125",
-    item: "Book 'Cooking 101'"
+    item: "Book \"Cooking 101\""
   },
   {
     id: "005",
