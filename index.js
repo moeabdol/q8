@@ -103,6 +103,9 @@ function ask() {
       case "filter by company name":
         filterByCompany();
         break;
+      case "filter by company address":
+        filterByAddress();
+        break;
     }
   });
 }
@@ -202,8 +205,28 @@ function filterByCompany() {
 }
 
 function filterByAddress() {
-  showBanner();
-  console.log("5");
+  var question = [
+    {
+      type: "input",
+      name: "address",
+      message: "Company address? ",
+    }
+  ];
+	inquirer.prompt(question).then(function(answer) {
+    // Construct filtered orders table
+    var table = new Table({
+      head: ["ID", "Company Name", "Company Address", "Item Name"],
+      colWidths: [10, 30, 30, 30]
+    });
+    for(var i in orders) {
+      if(orders[i]["address"] === answer.address) {
+        table.push([orders[i].id, orders[i].company, orders[i].address,
+          orders[i].item]);
+      }
+    }
+    console.log(table.toString());
+    ask();
+  });
 }
 
 function showTrendingItemsDesc() {
