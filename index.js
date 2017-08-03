@@ -76,38 +76,34 @@ function getUserInput(callback) {
       type: "input",
       message: "Please choose a command number: ",
       validate: function(value) {
-        if(value.length) {
-          switch(value) {
-            case "1":
-              showOrders();
-              break;
-            case "2":
-              addOrder();
-              break;
-            case "3":
-              deleteOrder();
-              break;
-            case "4":
-              filterByCompany();
-              break;
-            case "5":
-              filterByAddress();
-              break;
-            case "6":
-              showTrendingItemsDesc();
-              break;
-            default:
-              return;
-          }
-        } else {
-          return "Please choose a command number: ";
+        switch(value) {
+          case "1":
+            showOrders();
+            break;
+          case "2":
+            addOrder();
+            break;
+          case "3":
+            deleteOrder();
+            break;
+          case "4":
+            filterByCompany();
+            break;
+          case "5":
+            filterByAddress();
+            break;
+          case "6":
+            showTrendingItemsDesc();
+            break;
+          default:
+            return "Please choose a command number: ";
+            return;
         }
       }
     }
   ];
   inquirer.prompt(question).then(callback);
 }
-
 getUserInput(function() {
   console.log(arguments);
 });
