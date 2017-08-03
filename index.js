@@ -1,6 +1,6 @@
 var chalk    = require("chalk");
 var clear    = require("clear");
-var CLI      = require("clui");
+var Table    = require("cli-table");
 var figlet   = require("figlet");
 var inquirer = require("inquirer");
 
@@ -114,7 +114,16 @@ getUserInput(function() {
 
 function showOrders() {
   showBanner();
-  console.log("1");
+
+  // Construct orders table
+  var table = new Table({
+    head: ["ID", "Company", "Address", "Item"],
+    colWidths: [10, 30, 30, 30]
+  });
+  for(i = 0; i < orders.length; i++) {
+    table.push([orders[i].id, orders[i].company, orders[i].address, orders[i].item]);
+  }
+  console.log(table.toString());
 }
 
 function addOrder() {
