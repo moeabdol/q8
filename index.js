@@ -64,12 +64,9 @@ function showBanner() {
       figlet.textSync("Q8", { horizontalLayout: "full" })
     )
   );
-  // console.log(chalk.white("1.Add orders\n3.Delete orders\n" +
-  //   "4.Filter by company\n5.Filter by address\n6.Trending items (DESC)"));
 }
 showBanner();
 
-/////////////////////////////////////////////////////
 var questions = [
   {
     type: "list",
@@ -114,7 +111,6 @@ function ask() {
   });
 }
 ask();
-//////////////////////////////////////////////////////////
 
 function showOrders() {
   showBanner();
@@ -124,7 +120,12 @@ function showOrders() {
     colWidths: [10, 30, 30, 30]
   });
   for(i = 0; i < orders.length; i++) {
-    table.push([orders[i].id, orders[i].company, orders[i].address, orders[i].item]);
+    table.push([
+      orders[i].id,
+      orders[i].company,
+      orders[i].address,
+      orders[i].item
+    ]);
   }
   console.log(table.toString());
   ask();
