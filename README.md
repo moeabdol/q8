@@ -14,9 +14,10 @@ This is an interview question I had to solve using NodeJS.
 
 ## Run Q8
 Q8 has been published to the NPM repository. You can download the package and
-run it on your local machine.
+run it locally on your machine.
 ```
-npm install -g q8
+$ npm install -g q8
+$ q8
 ```
 
 ## Caveats
