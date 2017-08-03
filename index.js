@@ -100,6 +100,9 @@ function ask() {
       case "remove order by id":
         removeOrder();
         break;
+      case "filter by company name":
+        filterByCompany();
+        break;
     }
   });
 }
@@ -160,7 +163,7 @@ function removeOrder() {
     {
       type: "input",
       name: "id",
-      message: "Order ID: ",
+      message: "Order ID? ",
     }
   ];
 	inquirer.prompt(question).then(function(answer) {
@@ -174,8 +177,28 @@ function removeOrder() {
 }
 
 function filterByCompany() {
-  showBanner();
-  console.log("4");
+  var question = [
+    {
+      type: "input",
+      name: "company",
+      message: "Company name? ",
+    }
+  ];
+	inquirer.prompt(question).then(function(answer) {
+    // Construct filtered orders table
+    var table = new Table({
+      head: ["ID", "Company Name", "Company Address", "Item Name"],
+      colWidths: [10, 30, 30, 30]
+    });
+    for(var i in orders) {
+      if(orders[i]["company"] === answer.company) {
+        table.push([orders[i].id, orders[i].company, orders[i].address,
+          orders[i].item]);
+      }
+    }
+    console.log(table.toString());
+    ask();
+  });
 }
 
 function filterByAddress() {
