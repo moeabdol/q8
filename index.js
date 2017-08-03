@@ -77,9 +77,9 @@ var questions = [
     choices: [
       "Show orders",
       "Add order",
-      "Remove order",
-      "Filter by company",
-      "Filter by address",
+      "Remove order by ID",
+      "Filter by company name",
+      "Filter by company address",
       "Show trending items (DESC)"
     ],
     filter: function(choice) {
@@ -90,19 +90,15 @@ var questions = [
 
 function ask() {
   inquirer.prompt(questions).then(function(answers) {
-    // output.push(answers.tvShow);
-    // if (answers.askAgain) {
-    //     ask();
-    // } else {
-    //     console.log("Your favorite TV Shows:", output.join(", "));
-    // }
-
     switch(answers.command) {
       case "show orders":
         showOrders();
         break;
       case "add order":
         addOrder();
+        break;
+      case "remove order by id":
+        removeOrder();
         break;
     }
   });
@@ -114,7 +110,7 @@ function showOrders() {
   showBanner();
   // Construct orders table
   var table = new Table({
-    head: ["ID", "Company", "Address", "Item"],
+    head: ["ID", "Company Name", "Company Address", "Item Name"],
     colWidths: [10, 30, 30, 30]
   });
   for(i = 0; i < orders.length; i++) {
@@ -159,9 +155,22 @@ function addOrder() {
   });
 }
 
-function deleteOrder() {
-  showBanner();
-  console.log("3");
+function removeOrder() {
+  var question = [
+    {
+      type: "input",
+      name: "id",
+      message: "Order ID: ",
+    }
+  ];
+	inquirer.prompt(question).then(function(answer) {
+    for(var i in orders) {
+      if(orders[i]["id"] === answer.id) {
+        orders.splice(i, 1);
+      }
+    }
+    showOrders();
+  });
 }
 
 function filterByCompany() {
