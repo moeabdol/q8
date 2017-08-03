@@ -3,6 +3,7 @@ var clear    = require("clear");
 var Table    = require("cli-table");
 var figlet   = require("figlet");
 var inquirer = require("inquirer");
+var _        = require("underscore");
 
 var orders = [
   {
@@ -105,6 +106,9 @@ function ask() {
         break;
       case "filter by company address":
         filterByAddress();
+        break;
+      case "show trending items (desc)":
+        showTrendingItemsDesc();
         break;
     }
   });
@@ -230,6 +234,47 @@ function filterByAddress() {
 }
 
 function showTrendingItemsDesc() {
-  showBanner();
-  console.log("6");
+  // Find unique items
+  var unique_items = [];
+  for(order of orders) {
+    if(unique_items.indexOf(order.item) == -1) {
+      unique_items.push(order.item);
+    }
+  }
+
+  // Create initial unique items with counts
+  var unique_items_counts = [];
+  for(item of unique_items) {
+    unique_items_counts.push({
+      item: item,
+      count: 0
+    });
+  }
+
+  // Count unique items
+  for(item of unique_items_counts) {
+    for(order of orders) {
+      if(item.item == order.item) {
+        item.count++;
+      }
+    }
+  }
+
+  // Sort unique items by count
+  var sorted_unique_items_by_count = _.sortBy(unique_items_counts, "count")
+    .reverse();
+
+  // Construct trends table
+  var table = new Table({
+    head: ["Item Name", "Order Count"],
+    colWidths: [30, 30]
+  });
+  for(var i in sorted_unique_items_by_count) {
+    table.push([
+      sorted_unique_items_by_count[i].item,
+      sorted_unique_items_by_count[i].count
+    ]);
+  }
+  console.log(table.toString());
+  ask();
 }
